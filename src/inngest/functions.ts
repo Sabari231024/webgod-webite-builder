@@ -1,11 +1,16 @@
 import { z } from "zod";
 import { inngest } from "./client";
-import { gemini, createAgent, createTool, createNetwork } from "@inngest/agent-kit";
+import { gemini, createAgent, createTool, createNetwork, type Tool } from "@inngest/agent-kit";
 import { Sandbox } from '@e2b/code-interpreter'
 import { getSandbox, lastAssistantTextMessageContent } from "./utils";
 import { PROMPT } from "@/prompt";
 import { prisma } from "@/lib/db";
-export const codeAgent = inngest.createFunction(
+
+interface AgentState {
+  summary: string;
+  files: {[path: string]: string;};
+}
+export const codeAgentFunction = inngest.createFunction(
   { id: "code-Agent" },
   { event: "code-agent/run" },
   async ({ event,step }) => {
@@ -16,7 +21,7 @@ export const codeAgent = inngest.createFunction(
     const model = gemini({
     model: "gemini-2.5-pro",
   });
-    const codeAgent = createAgent({
+    const codeAgent = createAgent<AgentState>({
       name: "code-agent",
       description: "An Expert AI Agent that writes code in a sandboxed Next.js environment",
       system: PROMPT,
@@ -64,7 +69,7 @@ export const codeAgent = inngest.createFunction(
               )
             }
           ),
-          handler: async ({ files },{step,network}) => { 
+          handler: async ({ files },{step,network}:Tool.Options<AgentState>) => { 
             const newFiles = await step?.run("CreateOrUpdateFiles",async()=>{
               try{
                 const updatedFiles = network.state.data.files || {};
@@ -122,11 +127,11 @@ export const codeAgent = inngest.createFunction(
     }
     });
 
-    const network = createNetwork({
+    const network = createNetwork<AgentState>({
       name:"coding-agent",
       agents: [codeAgent],
       maxIter: 15,
-      router: async({network}) => {
+      router: async({ network }) => {
         const summary = network.state.data.summary;
         if (summary){
           return; 
@@ -146,15 +151,26 @@ Only use tools: terminal, createOrUpdateFiles, readFiles.
 Do not output code inline. Follow all PROMPT instructions.
 Task: ${event.data.value}
 `);
-
+    const isError = !result.state.data.summary || Object.keys(result.state.data.files || {}).length === 0;
     const sandboxUrl = await step.run("get-sandbox-url",async()=>{
       const sandbox = await getSandbox(sandboxId)
       const host = sandbox.getHost(3000);
       return `http://${host}`;
     })
     await step.run("save-result",async()=>{
+      if (isError){
+        return await prisma.message.create({
+          data: {
+            projectId: event.data.projectId,
+            content: `The agent failed to complete the task. \n Summary: ${result.state.data.summary || "no summary"} \n Files: ${JSON.stringify(result.state.data.files || {})} \n Sandbox URL: ${sandboxUrl} `,
+            role: "ASSISTANT",
+            type: "ERROR",
+          }
+        });
+      }
       return await prisma.message.create({
         data: {
+          projectId: event.data.projectId,
           content: result.state.data.summary || "no summary",
           role: "ASSISTANT",
           type: "RESULT",
