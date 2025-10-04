@@ -28,6 +28,7 @@ export const MessagesContainer = (
             refetchInterval: 5000,
         }
     ));
+    /*
     useEffect(()=>{
         const lastAssistantMessageWithFragment = messages.findLast((message) => message.role === "ASSISTANT" && !!message.fragment);
         if (lastAssistantMessageWithFragment){
@@ -35,6 +36,7 @@ export const MessagesContainer = (
             setActiveFragment(lastAssistantMessageWithFragment.fragment);
         }
     },[messages,setActiveFragment]);
+    */
     useEffect(()=>{
         bottomRef.current?.scrollIntoView();
     },[messages.length])
