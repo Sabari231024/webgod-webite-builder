@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+# WebGod Website Builder
+
+WebGod is a modern, full-stack website builder application built with Next.js, TypeScript, and Prisma. It provides a flexible platform for creating, managing, and deploying web projects with a rich set of UI components and integrations.
+
+## Features
+- Next.js app directory structure
+- TypeScript for type safety
+- Modular UI components (Accordion, Dialog, Table, etc.)
+- Prisma ORM for database management
+- API routes for backend logic
+- Project management module
+- Hooks and utilities for enhanced functionality
+
+## Project Structure
+- `src/` - Main source code
+  - `app/` - Next.js app directory
+  - `components/` - Reusable UI components
+  - `modules/` - Feature modules (e.g., projects, messages)
+  - `lib/` - Utility functions and database access
+  - `hooks/` - Custom React hooks
+  - `trpc/` - tRPC integration for type-safe APIs
+  - `inngest/` - Event-driven functions
+- `prisma/` - Prisma schema and migrations
+- `public/` - Static assets
 
 ## Getting Started
+1. Install dependencies:
+	```cmd
+	npm install
+	```
+2. Set up the database:
+	```cmd
+	npx prisma migrate dev
+	```
+3. Run the development server:
+	```cmd
+	npm run dev
+	```
 
-First, run the development server:
+## Scripts
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run lint` - Run ESLint
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+MIT
