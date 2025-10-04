@@ -41,7 +41,7 @@ export const MessageLoading = () => {
                 alt="Webgod AI Logo"
                 width={24}
                 height={24}
-                className="shrink-0"
+                className="shrink-0 rounded-full"
                 />
                 <span className="text-sm font-medium">WEBGOD AI</span>
             </div>

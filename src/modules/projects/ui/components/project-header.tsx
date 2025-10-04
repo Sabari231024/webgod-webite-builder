@@ -44,6 +44,7 @@ export const ProjectHeader = ({projectId}:Props)=>{
                     alt="WebGod Logo"
                     width={24}
                     height={24}
+                    className="rounded-full"
                     />
                     <span className="text-sm font-medium">{project?.name?.toUpperCase()}</span>
 
