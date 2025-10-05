@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import {Form,FormField} from "@/components/ui/form";
 import { useRouter } from "next/navigation";
 import { PROJECT_TEMPLATES } from "../../constants";
+import { useClerk } from "@clerk/nextjs";
 
 const formSchema = z.object({
     value: z.string()
@@ -25,6 +26,7 @@ export const ProjectForm = () => {
     const [isFocused, setIsFocused] = useState(false);
     const trpc = useTRPC();
     const queryClient = useQueryClient();
+    const clerk = useClerk();
     
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -35,12 +37,22 @@ export const ProjectForm = () => {
     const createProject = useMutation(trpc.projects.create.mutationOptions({
         onSuccess: (data) => {
             queryClient.invalidateQueries(trpc.projects.getMany.queryOptions());
+            queryClient.invalidateQueries(trpc.usage.status.queryOptions());
             router.push(`/projects/${data.id}`);
-            /*TODO : invalidate usage status */
+            
         },
         onError: (error) => {
             // redirect to pricing page if specific error.
             toast.error(error.message);
+            if(error.data?.code === "UNAUTHORIZED") {
+                clerk.openSignIn();
+                return;
+            }
+            if(error.data?.code === "TOO_MANY_REQUESTS"){
+                router.push("/pricing");
+                return;
+            }
+            
         }
     }))
     const onSubmit = async (values: z.infer<typeof formSchema>) => {

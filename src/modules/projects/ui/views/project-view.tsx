@@ -11,17 +11,22 @@ import { Fragment } from "@/generated/prisma";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ProjectHeader } from "../components/project-header";
 import { FragmentWeb } from "../components/fragment-web";
-import { EyeIcon, CodeIcon, CrownIcon } from "lucide-react";
+import { EyeIcon, CodeIcon, CrownIcon, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { CodeView } from "@/components/code-view";
 import { FileExplorer } from "@/components/file-explorer";
+import { UserControl } from "@/components/user-control";
+import { useAuth } from "@clerk/nextjs";
 
 interface Props {
     projectId: string;
 };
 
 export const ProjectView  = ({projectId}:Props)=> {
+    const {has} = useAuth();
+    const hasProAccess = has?.({plan:"pro"});
+
     const [activeFragment, setActiveFragment] = useState<Fragment|null>(null);
     const [tabState, setTabState] = useState<"Preview"|"Code">("Preview");
     return (
@@ -67,11 +72,14 @@ export const ProjectView  = ({projectId}:Props)=> {
                             {!!activeFragment && <FragmentWeb data={activeFragment}/>}
                             </TabsList>
                             <div className="ml-auto flex items-center-center gap-x-2">
+                                {!hasProAccess && (
                                 <Button asChild size="sm" variant="default">
                                     <Link href="/pricing">
                                     <CrownIcon /> Upgrade
                                     </Link>
                                 </Button>
+                                )}
+                                <UserControl />
                             </div>
                         </div>
                         <TabsContent value="Preview">
