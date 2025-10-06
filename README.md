@@ -1,7 +1,8 @@
 
+
 # WebGod Website Builder
 
-WebGod is a modern, full-stack website builder application built with Next.js, TypeScript, and Prisma. It provides a flexible platform for creating, managing, and deploying web projects with a rich set of UI components and integrations.
+WebGod is a modern, full-stack website builder application built with Next.js, TypeScript, Prisma, and Inngest. It provides a flexible platform for creating, managing, and deploying web projects with a rich set of UI components and integrations.
 
 ## Features
 - Next.js app directory structure
@@ -10,19 +11,13 @@ WebGod is a modern, full-stack website builder application built with Next.js, T
 - Prisma ORM for database management
 - API routes for backend logic
 - Project management module
+- Event-driven backend with Inngest
 - Hooks and utilities for enhanced functionality
 
-## Project Structure
-- `src/` - Main source code
-  - `app/` - Next.js app directory
-  - `components/` - Reusable UI components
-  - `modules/` - Feature modules (e.g., projects, messages)
-  - `lib/` - Utility functions and database access
-  - `hooks/` - Custom React hooks
-  - `trpc/` - tRPC integration for type-safe APIs
-  - `inngest/` - Event-driven functions
-- `prisma/` - Prisma schema and migrations
-- `public/` - Static assets
+## Output Example
+![WebGod Calculator Output](./public/webgod-output.png)
+
+<img src="https://i.imgur.com/0QwQvQw.png" alt="WebGod Output Screenshot" width="600"/>
 
 ## Getting Started
 1. Install dependencies:
@@ -33,13 +28,18 @@ WebGod is a modern, full-stack website builder application built with Next.js, T
 	```cmd
 	npx prisma migrate dev
 	```
-3. Run the development server:
+3. Start the frontend (Next.js):
 	```cmd
 	npm run dev
 	```
+4. Start the backend (Inngest):
+	```cmd
+	npx inngest-cli@latest dev
+	```
 
 ## Scripts
-- `npm run dev` - Start development server
+- `npm run dev` - Start development server (frontend)
+- `npx inngest-cli@latest dev` - Start backend event server
 - `npm run build` - Build for production
 - `npm run lint` - Run ESLint
 
