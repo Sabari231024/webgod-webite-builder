@@ -6,19 +6,19 @@ import {
     ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { MessagesContainer } from "../components/messages-containers";
-import { Fragment, Suspense, useState } from "react";
+import { Suspense, useState } from "react";
 import { Fragment } from "@/generated/prisma";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ProjectHeader } from "../components/project-header";
 import { FragmentWeb } from "../components/fragment-web";
-import { EyeIcon, CodeIcon, CrownIcon, User } from "lucide-react";
+import { EyeIcon, CodeIcon, CrownIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { CodeView } from "@/components/code-view";
+//import { CodeView } from "@/components/code-view";
 import { FileExplorer } from "@/components/file-explorer";
 import { UserControl } from "@/components/user-control";
 import { useAuth } from "@clerk/nextjs";
-import { ErrorBoundary } from "react-error-boundary";
+
 
 interface Props {
     projectId: string;
