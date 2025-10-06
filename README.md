@@ -17,7 +17,7 @@ WebGod is a modern, full-stack website builder application built with Next.js, T
 ## Output Example
 ![WebGod Calculator Output](./public/webgod-output.png)
 
-<img src="https://i.imgur.com/0QwQvQw.png" alt="WebGod Output Screenshot" width="600"/>
+<img src="image.png" alt="WebGod Output Screenshot" width="600"/>
 
 ## Getting Started
 1. Install dependencies:
