@@ -18,10 +18,18 @@
         "name": "next"
       }
     ],
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@generated/prisma": ["./src/generated/prisma"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "src/**/*",
+    "pages/**/*",
+    "components/**/*",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": ["node_modules", ".next"]
 }
